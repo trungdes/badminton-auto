@@ -8,10 +8,22 @@ const PORT = 3000
 app.use(express.static('public'));
 
 app.get('/match-history', (req,res) => {
-    addNewRound(1);
+    addNewRound();
     res.json({
         matchHistory: matchHistory, 
         players: players    
+    })
+})
+
+app.get('/reset', (req, res) => {
+    matchHistory.length = 0
+    players.forEach(p => {
+        p.playedCount = 0
+    }
+    )
+    res.json({
+        matchHistory: matchHistory,
+        players: players
     })
 })
 
@@ -21,6 +33,7 @@ app.listen(PORT, () => {
 
 const players = []
 const matchHistory = []
+const teammates = []
 
 // tạo ngẫu nhiên level
 function randomLevel(){
@@ -101,4 +114,4 @@ function addNewRound(){
 // console.log(...addNewRound(1))
 // console.log(...addNewRound(1))
 
-// console.log(players)
+// console.log(players)s
