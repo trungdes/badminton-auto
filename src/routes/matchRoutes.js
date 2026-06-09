@@ -1,7 +1,10 @@
-const {players} = require('src\data\players.js')
-const {addNewRound} = require('src\services\matchService.js')
+const {players, matchHistory} = require('../data/players.js')
+const {addNewRound} = require('../services/matchService.js')
 
-app.get('/match-history', (req,res) => {
+const express = require('express')
+const router = express.Router()
+
+router.get('/match-history', (req,res) => {
     addNewRound();
     res.json({
         matchHistory: matchHistory, 
@@ -9,7 +12,7 @@ app.get('/match-history', (req,res) => {
     })
 })
 
-app.get('/reset', (req, res) => {
+router.get('/reset', (req, res) => {
     matchHistory.length = 0
     players.forEach(p => {
         p.playedCount = 0
@@ -20,3 +23,5 @@ app.get('/reset', (req, res) => {
         players: players
     })
 })
+
+module.exports = router

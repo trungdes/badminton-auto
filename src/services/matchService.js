@@ -1,4 +1,4 @@
-const {players, matchHistory} = require('src\data\players.js')
+const {players, matchHistory} = require('../data/players.js')
 
 const selectedPlayer = players.slice(0, 8)
 

@@ -1,4 +1,4 @@
-const {players} = require('src\data\players.js')
+const {players} = require('../data/players.js')
 
 //hàm xáo trộn players
 function shuffle(array){

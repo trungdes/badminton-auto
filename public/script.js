@@ -49,7 +49,7 @@ const arrangeBtn = document.getElementById('btnNextRound')
         }
 
         arrangeBtn.addEventListener('click', () => {
-            fetch('/match-history')
+            fetch('/api/match-history')
                 .then(Response => {
                     return Response.json()
                 })
@@ -63,7 +63,7 @@ const arrangeBtn = document.getElementById('btnNextRound')
         });
 
         resetBtn.addEventListener('click', () => {
-            fetch('/reset')
+            fetch('/api/reset')
                 .then(Response => {
                     return Response.json()
                 })
