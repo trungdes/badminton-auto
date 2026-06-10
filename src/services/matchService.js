@@ -44,7 +44,7 @@ function createTeamForCourt(courtPlayers){
     updateTeamHistory(bestOption.team_A)
     updateTeamHistory(bestOption.team_B)
 
-    console.log(options)
+    // console.log(options)
 
     return bestOption
 }
@@ -105,8 +105,14 @@ function addNewRound(){
     const roundResult = getNextMatch(players)
     const newSet = {
         set: matchHistory.length + 1,
-        court_1: roundResult.court_1.map(p => ({...p})),
-        court_2: roundResult.court_2.map(p => ({...p}))
+        court_1: {
+            team_A: roundResult.court_1.team_A.map(p => ({...p})),
+            team_B: roundResult.court_1.team_B.map(p => ({...p})),
+        },
+        court_2: {
+            team_A: roundResult.court_2.team_A.map(p => ({...p})),
+            team_B: roundResult.court_2.team_B.map(p => ({...p})),
+        }
     }
     matchHistory.push(newSet)
     return matchHistory
@@ -115,9 +121,3 @@ function addNewRound(){
 module.exports = {
     addNewRound
 }
-
-getNextMatch(selectedPlayer)
-getNextMatch(selectedPlayer)
-getNextMatch(selectedPlayer)
-
-console.log(selectedPlayer)
