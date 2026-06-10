@@ -16,13 +16,37 @@ function sort(array){
 
 //chia team theo từng sân   
 function createTeamForCourt(courtPlayers){
-    const team_A = courtPlayers.slice(0,2)
-    const team_B = courtPlayers.slice(2,4)
+    // const team_A = courtPlayers.slice(0,2)
+    // const team_B = courtPlayers.slice(2,4)
 
-    return {
-        team_A,
-        team_B
+    const [A,B,C,D] = courtPlayers
+
+    const option_1 = {
+        team_A: [A,B],
+        team_B: [C,D],
+        score: getTeamScore([A,B],[C,D])
     }
+    const option_2 = {
+        team_A: [A,C],
+        team_B: [B,D],
+        score: getTeamScore([A,C],[B,D])
+    }
+    const option_3 = {
+        team_A: [A,D],
+        team_B: [C,B],
+        score: getTeamScore([A,D],[C,B])
+    }
+
+    const options = [option_1, option_2, option_3]
+    options.sort((a,b) => a.score - b.score)
+    const bestOption = options[0]
+
+    updateTeamHistory(bestOption.team_A)
+    updateTeamHistory(bestOption.team_B)
+
+    console.log(options)
+
+    return bestOption
 }
 
 //tính điểm cho từng cặp nếu đã đánh chung
@@ -51,7 +75,7 @@ function getNextMatch(allPlayers){
         court_2
     }
 }
-console.log(getNextMatch(players))
+// console.log(getNextMatch(players))
 
 //kiểm tra nếu đã đánh chung
 function hasPLayedTogether(playerA, playerB){
@@ -73,9 +97,9 @@ function updateTeamHistory(team){
         playerB.teammates.push(playerA.name)
     }
 }
-updateTeamHistory([players[0], players[1]])
-console.log(players[0].teammates)
-console.log(players[1].teammates)
+// updateTeamHistory([players[0], players[1]])
+// console.log(players[0].teammates)
+// console.log(players[1].teammates)
 
 function addNewRound(){
     const roundResult = getNextMatch(players)
@@ -91,3 +115,9 @@ function addNewRound(){
 module.exports = {
     addNewRound
 }
+
+getNextMatch(selectedPlayer)
+getNextMatch(selectedPlayer)
+getNextMatch(selectedPlayer)
+
+console.log(selectedPlayer)
