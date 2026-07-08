@@ -51,7 +51,16 @@ function createTeamForCourt(courtPlayers){
 
 //tính điểm cho từng cặp nếu đã đánh chung
 function getPairScore(playerA, playerB){
-    return hasPLayedTogether(playerA, playerB) ? 1 : 0
+    const levelDiff = Math.abs(playerA.level - playerB.level)
+    let score = 0
+
+    if(hasPLayedTogether(playerA, playerB)){
+        score += 1
+    }
+    if(levelDiff > 1){
+        score += 5
+    }
+    return score
 }
 
 function getTeamScore(teamA, teamB){

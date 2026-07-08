@@ -16,8 +16,8 @@ function renderPlayerList(players){
     return `
         <li class="player-item">
             <span>${players.name}</span>
-            <span class="level-badge">${players.level}</span>
-            <span class="level-badge">${players.playedCount}</span>
+            <span class="level-badge">Lv ${players.level}</span>
+            <span class="level-badge">Set ${players.playedCount}</span>
         </li>
     `
 }
