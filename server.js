@@ -2,7 +2,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 require('dotenv').config()
-// console.log('MONGODB_URL: ', process.env.MONGODB_URL)
 
 const matchRoute = require('./src/routes/matchRoutes.js')
 const authRoute = require('./src/routes/authRoutes.js')
@@ -12,7 +11,7 @@ mongoose.connect(process.env.MONGODB_URL)
     .catch(err => console.log(err))
 
 const app = express();
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 app.use(express.json())
 app.use(express.static('public'));
