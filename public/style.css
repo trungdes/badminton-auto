@@ -62,6 +62,73 @@ body {
     background: rgba(255, 255, 255, 0.15);
 }
 
+/* ===== Form thêm player ===== */
+.add-player-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.add-player-form input,
+.add-player-form select {
+    flex: 1;
+    min-width: 140px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--line-white);
+    font-size: 15px;
+}
+
+.add-player-form select option {
+    background: var(--court-dark);
+    color: var(--line-white);
+}
+
+.add-player-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.add-player-form input:focus,
+.add-player-form select:focus {
+    outline: none;
+    border-color: var(--line-white);
+}
+
+/* ===== Nút xóa player ===== */
+.player-badges {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-remove {
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: background 0.15s, color 0.15s;
+}
+
+.btn-remove:hover {
+    background: rgba(255, 80, 80, 0.7);
+    border-color: transparent;
+    color: white;
+}
+
 /* ===== Tiêu đề section ===== */
 .section-title {
     text-align: center;
@@ -174,6 +241,86 @@ body {
     padding: 3px 10px;
     border-radius: 12px;
     white-space: nowrap;
+}
+
+/* ===== Trang đăng nhập ===== */
+.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: none;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    border: 3px solid var(--line-white);
+    border-radius: 14px;
+    padding: 35px 30px;
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.login-logo {
+    font-size: 3em;
+    margin: 0;
+}
+
+.login-title {
+    margin: 10px 0 4px;
+    letter-spacing: 1px;
+    font-size: 1.25em;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.login-subtitle {
+    color: var(--text-soft);
+    font-size: 0.9em;
+    margin: 0 0 25px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.login-field {
+    text-align: left;
+}
+
+.login-field label {
+    display: block;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-soft);
+    margin-bottom: 6px;
+}
+
+.login-field input {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--line-white);
+    font-size: 15px;
+}
+
+.login-field input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.login-field input:focus {
+    outline: none;
+    border-color: var(--line-white);
+}
+
+.btn-login {
+    margin: 8px 0 0;
+    width: 100%;
 }
 
 /* ===== Mobile ===== */

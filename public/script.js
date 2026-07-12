@@ -2,6 +2,10 @@ const arrangeBtn = document.getElementById('btnNextRound')
 const matchHistoryBox = document.getElementById('matchHistory')
 const playerHistoryBox = document.getElementById('playerList')
 const resetBtn = document.getElementById('btnReset')
+const token = localStorage.getItem('token')
+if (!token || token === 'undefined'){
+    window.location.href = '/login.html'
+}
 
 function renderPlayer(player) {
     return `
@@ -16,8 +20,11 @@ function renderPlayerList(players){
     return `
         <li class="player-item">
             <span>${players.name}</span>
-            <span class="level-badge">Lv ${players.level}</span>
-            <span class="level-badge">Set ${players.playedCount}</span>
+            <div class="player-badges">
+                <span class="level-badge">Lv ${players.level}</span>
+                <span class="level-badge">Set ${players.playedCount}</span>
+                <button class="btn-remove" data-name="${players.name}">✕</button>
+            </div>
         </li>
     `
 }
@@ -59,8 +66,59 @@ function renderPlayerHistory(players){
     playerHistoryBox.innerHTML = players.map(renderPlayerList).join('')
 }
 
+const addPlayerBtn = document.getElementById('btnAddPlayer')
+const inputName = document.getElementById('inputName')
+const selectLevel = document.getElementById('selectLevel')
+
+addPlayerBtn.addEventListener('click', () => {
+    const name = inputName.value.trim()
+    const level = selectLevel.value
+
+    if (!name || !level) return
+
+    fetch('/api/players', {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${token}`
+         },
+        body: JSON.stringify({ name, level: Number(level) })
+    })
+        .then(res => res.json())
+        .then(data => {
+            renderPlayerHistory(data.players)
+            inputName.value = ''
+            selectLevel.value = ''
+        })
+})
+
+document.getElementById('playerList').addEventListener('click', (e) => {
+    if (!e.target.classList.contains('btn-remove')) return
+    const name = e.target.dataset.name
+    fetch(`/api/players/${encodeURIComponent(name)}`, { 
+        headers: {authorization: `Bearer ${token}`},
+        method: 'DELETE' })
+        .then(res => res.json())
+        .then(data => renderPlayerHistory(data.players))
+})
+
+document.getElementById('btnRandom').addEventListener('click', () => {
+    fetch('/api/players/random', {
+        headers: {authorization: `Bearer ${token}`},
+        method: 'POST'})
+        .then(res => res.json())
+        .then(data => renderPlayerHistory(data.players))
+})
+
+document.getElementById('btnLogout').addEventListener('click', () => {
+    localStorage.removeItem('token')
+    window.location.href = '/login.html'
+})
+
 arrangeBtn.addEventListener('click', () => {
-    fetch('/api/match-history')
+    fetch('/api/match-history', {
+        headers: {authorization: `Bearer ${token}`},
+    })
         .then(Response => {
             return Response.json()
         })
@@ -74,7 +132,9 @@ arrangeBtn.addEventListener('click', () => {
 });
 
 resetBtn.addEventListener('click', () => {
-    fetch('/api/reset')
+    fetch('/api/reset', {
+        headers: {authorization: `Bearer ${token}`},
+    })
         .then(Response => {
             return Response.json()
         })

@@ -8,18 +8,41 @@ function randomLevel(){
 } 
 
 // tạo random 16 players
-for (let i = 1; i <= 16; i++){
-    let newPlayer = {
-        name: "player_" + i,
-        level: randomLevel(),
+function generatedRandom(){
+    players.length = 0
+    for (let i = 1; i <= 16; i++){
+        let newPlayer = {
+            name: "player_" + i,
+            level: randomLevel(),
+            playedCount: 0,
+            teammates: []
+        }
+        players.push(newPlayer)
+    }
+}
+
+// console.log(players)
+function addPlayer(name, level){
+    const newPlayer = {
+        name: name,
+        level: level,
         playedCount: 0,
         teammates: []
     }
     players.push(newPlayer)
+}   
+
+function removePlayer(name){
+    const index = players.findIndex(p => p.name === name)
+    if (index !== -1){
+        players.splice(index, 1)
+    }
 }
-// console.log(players)
 
 module.exports = {
     players,
-    matchHistory
+    matchHistory,
+    addPlayer,
+    removePlayer,
+    generatedRandom
 }

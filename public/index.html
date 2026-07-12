@@ -11,10 +11,23 @@
         <h1>🏸 Hệ Thống Sắp Xếp Sân Cầu Lông</h1>
         <button class="btn-action" id="btnNextRound">Xếp Hiệp Tiếp Theo</button>
         <button class="btn-action" id="btnReset">Reset</button>
+        <button class="btn-action" id="btnRandom">Tạo Ngẫu Nhiên</button>
+        <button class="btn-action" id="btnLogout">Logout</button>
+    </div>
+
+    <div class="add-player-form">
+        <input type="text" id="inputName" placeholder="Tên người chơi" />
+        <select id="selectLevel">
+            <option value="" disabled selected>Chọn level</option>
+            <option value="1">Level 1</option>
+            <option value="2">Level 2</option>
+            <option value="3">Level 3</option>
+        </select>
+        <button class="btn-action" id="btnAddPlayer">Thêm</button>
     </div>
 
     <h2 class="section-title">Danh Sách Người Chơi</h2>
-    <div id="playerList"></div>
+    <ul id="playerList"></ul>
 
     <h2 class="section-title">Lịch Sử Các Hiệp</h2>
     <div id="matchHistory"></div>

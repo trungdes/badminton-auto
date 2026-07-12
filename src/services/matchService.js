@@ -1,6 +1,3 @@
-const {players, matchHistory} = require('../data/players.js')
-
-const selectedPlayer = players.slice(0, 8)
 
 // hàm tăng số set của player 
 function checked (selectedPlayer){
@@ -68,23 +65,6 @@ function getTeamScore(teamA, teamB){
     return score
 }
 
-//kiếm trận tiếp theo
-function getNextMatch(allPlayers){
-    allPlayers.sort((a,b) => a.playedCount - b.playedCount)
-
-    const selected = allPlayers.slice(0, 8)
-
-    checked(selected)
-    sort(selected)
-    
-    const court_1 = createTeamForCourt(selected.slice(0,4))
-    const court_2 = createTeamForCourt(selected.slice(4,8))
-    return {
-        court_1,
-        court_2
-    }
-}
-// console.log(getNextMatch(players))
 
 //kiểm tra nếu đã đánh chung
 function hasPLayedTogether(playerA, playerB){
@@ -110,7 +90,25 @@ function updateTeamHistory(team){
 // console.log(players[0].teammates)
 // console.log(players[1].teammates)
 
-function addNewRound(){
+//kiếm trận tiếp theo
+function getNextMatch(allPlayers){
+    allPlayers.sort((a,b) => a.playedCount - b.playedCount)
+
+    const selected = allPlayers.slice(0, 8)
+
+    checked(selected)
+    sort(selected)
+    
+    const court_1 = createTeamForCourt(selected.slice(0,4))
+    const court_2 = createTeamForCourt(selected.slice(4,8))
+    return {
+        court_1,
+        court_2
+    }
+}
+// console.log(getNextMatch(players))
+
+function addNewRound(players, matchHistory){
     const roundResult = getNextMatch(players)
     const newSet = {
         set: matchHistory.length + 1,
