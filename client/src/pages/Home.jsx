@@ -1,24 +1,14 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom" 
+import { useAuthFetch } from "../hooks/useAuthFetch"
+import { useAuth } from "../hooks/useAuth"
 
 function Home(){
     const [players, setPlayers] = useState([])
     const [matchHistory, setMatchHistory] = useState([])
     const [inputName, setInputName] = useState('')
     const [selectLevel, setSelectLevel] = useState('')
-    const navigate = useNavigate()
-    const token = localStorage.getItem('token')
-
-    const authFetch = (url, options = {}) => {
-        return fetch(url, {
-            ...options,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-                ...(options.headers || {})
-            }
-        }).then(res => res.json())
-    }
+    const authFetch = useAuthFetch()
+    const {logout} = useAuth()
 
     const loadNextRound = () => {
         authFetch('/api/match-history')
@@ -73,8 +63,7 @@ function Home(){
 
 
     const handleLogout = () => {
-        localStorage.removeItem('token')
-        navigate('/login')
+        logout()
     }
 
     return (
