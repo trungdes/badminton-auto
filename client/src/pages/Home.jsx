@@ -1,6 +1,5 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"   
+import { useNavigate } from "react-router-dom" 
 
 function Home(){
     const [players, setPlayers] = useState([])
@@ -72,12 +71,6 @@ function Home(){
         })
     }
 
-    useEffect(() => {
-        const token = localStorage.getItem('token')
-        if (!token){
-            navigate('/login')
-        }
-    }, [])
 
     const handleLogout = () => {
         localStorage.removeItem('token')
