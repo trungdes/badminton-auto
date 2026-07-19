@@ -32,9 +32,9 @@ function Login(){
     return (
             <div className="login-page">
                 <div className="login-card">
-                    <h1 className="login-logo">🏸</h1>
-                    <h2 className="login-title">Hệ Thống Sắp Xếp Sân Cầu Lông</h2>
-                    <p className="login-subtitle">Đăng nhập để quản lý người chơi của bạn</p>
+                    <p className="login-eyebrow">Hệ thống xếp sân cầu lông</p>
+                    <h2 className="login-title">Đăng Nhập</h2>
+                    <p className="login-subtitle">Quản lý người chơi và chia đội cân bằng của bạn</p>
 
                     <form className="login-form" onSubmit={handleSubmit}>
                         <div className="login-field">

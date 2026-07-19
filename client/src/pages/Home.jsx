@@ -68,7 +68,8 @@ function Home(){
 
     return (
         <div className="header">
-            <h1>Home page</h1>
+            <h1>Sắp Xếp Sân Cầu Lông</h1>
+            <p className="tagline">Chia đội 2v2 cân bằng, xoay vòng qua 2 sân mỗi hiệp.</p>
             <button className="btn-action" onClick={loadNextRound}>Xếp Hiệp Tiếp Theo</button>
             <button className="btn-action" onClick={handleReset}>Reset</button>
             <button className="btn-action" onClick={handleRandom}>Tạo Ngẫu Nhiên</button>

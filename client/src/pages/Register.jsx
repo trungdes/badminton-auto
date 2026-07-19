@@ -29,9 +29,9 @@ function Register(){
     return (
         <div className="login-page">
                 <div className="login-card">
-                    <h1 className="login-logo">🏸</h1>
-                    <h2 className="login-title">Hệ Thống Sắp Xếp Sân Cầu Lông</h2>
-                    <p className="login-subtitle">Đăng nhập để quản lý người chơi của bạn</p>
+                    <p className="login-eyebrow">Hệ thống xếp sân cầu lông</p>
+                    <h2 className="login-title">Đăng Kí</h2>
+                    <p className="login-subtitle">Tạo tài khoản để bắt đầu xếp sân</p>
 
                     <form className="login-form" onSubmit={handleRegister}>
                         <div className="login-field">
