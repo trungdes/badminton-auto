@@ -14,10 +14,13 @@ const app = express();
 const PORT = process.env.PORT || 3000
 
 app.use(express.json())
-app.get('/', (req, res) => res.redirect('/login.html'))
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'client', 'dist')));
 app.use('/api', matchRoute)
 app.use('/api/auth', authRoute)
+
+app.use((req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+})
 
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại http://localhost:${PORT}`);

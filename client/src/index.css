@@ -1,0 +1,490 @@
+/* =========================================================
+   Sắp Xếp Sân Cầu Lông — hệ thống thiết kế "Sân Đấu"
+   Chủ đề: sân cầu lông nhìn từ trên xuống, đèn sân màu chanh.
+   ========================================================= */
+
+:root {
+    --court-deep: #0c3123;   /* nền trang — mép sân trong bóng tối */
+    --court:      #17694c;   /* mặt sân thi đấu */
+    --court-lit:  #1e8a63;   /* mặt sân được chiếu sáng */
+    --line:       #f4faf7;   /* sơn vạch sân */
+    --line-dim:   rgba(244, 250, 247, 0.42);
+    --smash:      #ccff33;   /* màu nhấn duy nhất — đèn sân / hành động chính */
+    --smash-deep: #a6d80f;
+    --mint:       #b7dccb;   /* chữ phụ dịu */
+    --ink:        #08221a;   /* chữ trên nền lime */
+
+    --font-display: 'Archivo', 'Segoe UI', sans-serif;
+    --font-body: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0 auto;
+    max-width: 1040px;
+    min-height: 100vh;
+    padding: 28px 20px 60px;
+    font-family: var(--font-body);
+    color: var(--line);
+    background:
+        radial-gradient(130% 80% at 50% -12%, rgba(204, 255, 51, 0.12), transparent 58%),
+        linear-gradient(172deg, #0d3527 0%, #0a2a1e 55%, #0c3123 100%);
+    background-attachment: fixed;
+}
+
+/* ===== Tiêu đề trang (bảng điểm sân đấu) ===== */
+.header {
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.1rem, 6vw, 3.4rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    text-shadow: 0 3px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* gạch chân màu chanh như vạch giao bóng */
+.header h1::after {
+    content: "";
+    display: block;
+    width: 68px;
+    height: 6px;
+    margin: 14px auto 0;
+    background: var(--smash);
+    border-radius: 3px;
+    box-shadow: 0 0 18px rgba(204, 255, 51, 0.5);
+}
+
+.tagline {
+    margin: 14px auto 26px;
+    color: var(--mint);
+    font-size: 1rem;
+    max-width: 42ch;
+}
+
+/* ===== Nút hành động ===== */
+.btn-action {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--line);
+    background: transparent;
+    border: 2px solid var(--line-dim);
+    padding: 11px 22px;
+    border-radius: 999px;
+    cursor: pointer;
+    margin: 0 8px 10px 0;
+    transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.btn-action:hover {
+    border-color: var(--line);
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-2px);
+}
+
+/* nút chính "Xếp Hiệp Tiếp Theo" — nút đầu tiên trong header */
+.header > button.btn-action:first-of-type {
+    color: var(--ink);
+    background: var(--smash);
+    border-color: var(--smash);
+    box-shadow: 0 6px 20px rgba(204, 255, 51, 0.28);
+}
+
+.header > button.btn-action:first-of-type:hover {
+    background: var(--smash-deep);
+    border-color: var(--smash-deep);
+}
+
+/* ===== Thanh thêm người chơi ===== */
+.header form {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 22px 0 30px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+}
+
+.header form input,
+.header form select {
+    flex: 1 1 150px;
+    padding: 11px 14px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--line);
+    background: rgba(0, 0, 0, 0.22);
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.header form select option {
+    background: var(--court-deep);
+    color: var(--line);
+}
+
+.header form input::placeholder {
+    color: rgba(244, 250, 247, 0.4);
+}
+
+.header form input:focus,
+.header form select:focus {
+    outline: none;
+    border-color: var(--smash);
+    box-shadow: 0 0 0 3px rgba(204, 255, 51, 0.18);
+}
+
+.header form .btn-action {
+    flex: 0 0 auto;
+    margin: 0;
+}
+
+/* ===== Danh sách người chơi (đội hình) ===== */
+#playerList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 12px;
+    margin: 0 0 8px;
+    padding: 0;
+    list-style: none;
+}
+
+#playerList .player-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    font-weight: 600;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+#playerList .player-item:hover {
+    border-color: var(--smash);
+    transform: translateY(-2px);
+}
+
+.player-badges {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.level-badge {
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--mint);
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 3px 9px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.btn-remove {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    font-size: 11px;
+    line-height: 1;
+    color: rgba(244, 250, 247, 0.65);
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-remove:hover {
+    background: #e5484d;
+    border-color: transparent;
+    color: #fff;
+}
+
+/* =========================================================
+   ĐIỂM NHẤN: mỗi hiệp = 2 sân cầu lông nhìn từ trên xuống
+   ========================================================= */
+.round {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    margin-top: 34px;
+}
+
+/* nhãn "Hiệp N" như bảng điểm, trải ngang cả 2 sân */
+.round h3 {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mint);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.round h3::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--smash);
+    box-shadow: 0 0 12px rgba(204, 255, 51, 0.6);
+}
+
+.round h3::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* mặt sân */
+.court {
+    position: relative;
+    background:
+        linear-gradient(160deg, var(--court-lit), var(--court));
+    border: 3px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+}
+
+/* vạch biên dọc (tramline) hai bên bằng bóng đổ bên trong */
+.court::before {
+    content: "";
+    position: absolute;
+    inset: 8px 14px;
+    border-left: 2px solid var(--line-dim);
+    border-right: 2px solid var(--line-dim);
+    pointer-events: none;
+}
+
+/* tên sân — như tấm biển đầu sân */
+.court > h4 {
+    position: relative;
+    margin: 0;
+    padding: 9px;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--line);
+}
+
+.team {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 18px;
+}
+
+/* mỗi người chơi = một "chip" áo đấu */
+.team span {
+    display: inline-block;
+    padding: 7px 15px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.26);
+    border: 1.5px solid var(--line-dim);
+    border-radius: 999px;
+    transition: border-color 0.15s ease;
+}
+
+.team span:hover {
+    border-color: var(--smash);
+}
+
+/* "VS" = tấm lưới căng giữa sân */
+.court > span {
+    position: relative;
+    display: block;
+    margin: 0 14px;
+    padding: 8px 0;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.72rem;
+    letter-spacing: 0.24em;
+    color: var(--smash);
+    border-top: 2px dashed var(--line);
+    border-bottom: 2px dashed var(--line);
+    background: rgba(0, 0, 0, 0.14);
+}
+
+/* ===== Trang đăng nhập / đăng ký ===== */
+.login-page {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 84vh;
+    max-width: none;
+}
+
+@keyframes card-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.login-card {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    padding: 42px 34px 40px;
+    background: linear-gradient(170deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    animation: card-in 0.5s ease both;
+}
+
+.login-eyebrow {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--smash);
+}
+
+.login-title {
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+}
+
+.login-subtitle {
+    margin: 0 0 26px;
+    color: var(--mint);
+    font-size: 0.92rem;
+}
+
+.login-subtitle a {
+    color: var(--smash);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-subtitle a:hover {
+    text-decoration: underline;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.login-field {
+    text-align: left;
+}
+
+.login-field label {
+    display: block;
+    margin-bottom: 7px;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mint);
+}
+
+.login-field input {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--line);
+    background: rgba(0, 0, 0, 0.22);
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.login-field input::placeholder {
+    color: rgba(244, 250, 247, 0.4);
+}
+
+.login-field input:focus {
+    outline: none;
+    border-color: var(--smash);
+    box-shadow: 0 0 0 3px rgba(204, 255, 51, 0.18);
+}
+
+/* nút đăng nhập/đăng ký — hành động chính màu lime */
+.btn-login {
+    width: 100%;
+    margin: 6px 0 0;
+    color: var(--ink);
+    background: var(--smash);
+    border-color: var(--smash);
+    box-shadow: 0 6px 20px rgba(204, 255, 51, 0.28);
+}
+
+.btn-login:hover {
+    background: var(--smash-deep);
+    border-color: var(--smash-deep);
+}
+
+/* ===== Khả năng truy cập & chuyển động ===== */
+:focus-visible {
+    outline: 2px solid var(--smash);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 640px) {
+    .round {
+        grid-template-columns: 1fr;
+    }
+
+    .header form .btn-action {
+        flex: 1 1 auto;
+    }
+}
